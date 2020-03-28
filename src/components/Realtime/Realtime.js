@@ -6,7 +6,7 @@ import useWebcam from './useWebcam';
 import useBoxRenderer from './useBoxRenderer';
 
 import styles from './styles.module.css'
-const MODEL_URL = process.env.PUBLIC_URL + '/model_web/';
+const MODEL_URL = process.env.PUBLIC_URL + '/face_detection/';
 const LABELS_URL = MODEL_URL + 'labels.json';
 const MODEL_JSON = MODEL_URL + 'model.json';
 

@@ -1,10 +1,10 @@
-import React, { useRef, useContext, useState } from 'react';
+import React, {  useState, useEffect, useRef, useContext } from 'react';
 import * as tf from '@tensorflow/tfjs';
 import { ModelContext } from '../context/model-context';
 import useDetector from './useDetector';
 import MagicDropzone from 'react-magic-dropzone';
 
-const MODEL_URL = process.env.PUBLIC_URL + '/model_web/';
+const MODEL_URL = process.env.PUBLIC_URL + '/face_detection/';
 const LABELS_URL = MODEL_URL + 'labels.json';
 const MODEL_JSON = MODEL_URL + 'model.json';
 
@@ -13,6 +13,52 @@ const Detection = () => {
     const [loadedImg, setLoadedImg] = useState(null); 
     const imageRef = useRef();
     const canvasRef = useRef();
+
+    const [dimensions, setDimensions] = useState(() => { 
+        if (window.innerWidth > 1000) {
+            return {
+                height: 600,
+                width: 600
+            }
+        } else if (window.innerWidth > 800) {
+            return {
+                height: 500,
+                width: 500
+            }
+        } else {
+            return {
+                height: 300,
+                width: 300
+            }
+        }
+    })
+
+    useEffect(() => {
+        function handleResize() {
+            if (window.innerWidth > 1000) {
+                setDimensions({
+                    height: 600,
+                    width: 600
+                });
+            } else if (window.innerWidth > 800) {
+                setDimensions({
+                    height: 500,
+                    width: 500
+                });
+            } else {
+                setDimensions({
+                    height: 300,
+                    width: 300
+                });
+            }
+        }
+
+        window.addEventListener('resize', handleResize)
+
+        return _ => {
+            window.removeEventListener('resize', handleResize)
+        }
+    });
 
     useDetector(model, labels, loadedImg, imageRef, canvasRef)
 
@@ -35,87 +81,87 @@ const Detection = () => {
     }
 
     return (
-        <div>
-            {!model && (
+        <React.Fragment>
+            {!model ? (
                 <div>
                     <button onClick={loadModel}>Load Model</button>
                 </div>
-            )}
-            {model && (
-                <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}>
-                    <MagicDropzone
-                        accept="image/jpeg, image/png, .jpg, .jpeg, .png"
-                        multiple={false}
-                        onDrop={onDrop}
-                        style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            cursor: 'pointer',
-                            border: 'thin dashed black',
-                            background: '#d3d3d3',
-                            minWidth: '250px',
-                            maxWidth: '800px',
-                            minHeight: '120px',
-                            padding: '16px 11px',
-                            borderRadius: '5px',
-                            margin: '40px 0',
-                        }}
-                    >
-                        <div style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            flexWrap: 'wrap',
-                        }}>
-                            {loadedImg ? (
-                                <img 
-                                    style={{
-                                        margin: '5px',
-                                        width: '100px',
-                                        height: '100px',
-                                        border: 'thin solid rgba(64, 64, 64, 0.15)',
-                                        borderRadius: '5px',
-                                        objectFit: 'cover',
-                                    }}
-                                    src={loadedImg} 
-                                    width="100" 
-                                    alt="drop" 
-                                />
-                            ) : (
-                                <h5>Drop some files on me!</h5>
-                            )}
-                        </div>
-                    </MagicDropzone>
+            ) : (
+                <div>
+                    <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}>
+                        <MagicDropzone
+                            accept="image/jpeg, image/png, .jpg, .jpeg, .png"
+                            multiple={false}
+                            onDrop={onDrop}
+                            style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                cursor: 'pointer',
+                                border: 'thin dashed black',
+                                background: '#d3d3d3',
+                                minWidth: '70%',
+                                maxWidth: '800px',
+                                minHeight: '120px',
+                                padding: '16px 11px',
+                                borderRadius: '5px',
+                                margin: '40px 0',
+                            }}
+                        >
+                            <div style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                flexWrap: 'wrap',
+                            }}>
+                                {loadedImg ? (
+                                    <img 
+                                        style={{
+                                            margin: '5px',
+                                            width: '100px',
+                                            height: '100px',
+                                            border: 'thin solid rgba(64, 64, 64, 0.15)',
+                                            borderRadius: '5px',
+                                            objectFit: 'cover',
+                                        }}
+                                        src={loadedImg} 
+                                        width="100" 
+                                        alt="drop" 
+                                    />
+                                ) : (
+                                    <h5>Drop some files on me!</h5>
+                                )}
+                            </div>
+                        </MagicDropzone>
+                    </div>
                     <div>
                         {loadedImg && (
                             <div style={{
-                                marginLeft: '100px',
-                                paddingLeft: '100px'
                             }}>
                                 <img 
                                     style={{ position: 'absolute' }} 
                                     ref={imageRef} 
                                     src={loadedImg} 
-                                    width="500" 
+                                    width={dimensions.width}
+                                    height={dimensions.height} 
                                     alt="test"  
                                 />
                                 <canvas 
                                     style={{ position: 'absolute' }}
                                     ref={canvasRef} 
-                                    width="700" 
-                                    height="500" 
+                                    width={dimensions.width}
+                                    height={dimensions.height + 100}
                                 />
                             </div>
                         )}
                     </div>
                 </div>
             )}
-        </div>
+        </React.Fragment>
     )
 }
 
