@@ -73,7 +73,19 @@ const Detection = () => {
                             flexWrap: 'wrap',
                         }}>
                             {loadedImg ? (
-                                <img src={loadedImg} width="100" alt="drop" />
+                                <img 
+                                    style={{
+                                        margin: '5px',
+                                        width: '100px',
+                                        height: '100px',
+                                        border: 'thin solid rgba(64, 64, 64, 0.15)',
+                                        borderRadius: '5px',
+                                        objectFit: 'cover',
+                                    }}
+                                    src={loadedImg} 
+                                    width="100" 
+                                    alt="drop" 
+                                />
                             ) : (
                                 <h5>Drop some files on me!</h5>
                             )}
