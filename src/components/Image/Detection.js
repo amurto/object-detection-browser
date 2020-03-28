@@ -2,6 +2,7 @@ import React, { useRef, useContext, useState } from 'react';
 import * as tf from '@tensorflow/tfjs';
 import { ModelContext } from '../context/model-context';
 import useDetector from './useDetector';
+import MagicDropzone from 'react-magic-dropzone';
 
 const MODEL_URL = process.env.PUBLIC_URL + '/model_web/';
 const LABELS_URL = MODEL_URL + 'labels.json';
@@ -23,15 +24,15 @@ const Detection = () => {
         fetchLabels(labels)
     }
 
-    const onSelectFile = e => {
-        if (e.target.files && e.target.files.length > 0) {
+    const onDrop = (accepted, rejected, links) => {
+        if (accepted && accepted.length > 0) {
             const reader = new FileReader();
             reader.addEventListener("load", () => {
                 setLoadedImg(reader.result);
             });
-            reader.readAsDataURL(e.target.files[0]);
+            reader.readAsDataURL(accepted[0]);
         }
-    };
+    }
 
     return (
         <div>
@@ -41,17 +42,62 @@ const Detection = () => {
                 </div>
             )}
             {model && (
-                <div>
-                    <input
-                        accept="image/*"
-                        type="file"
-                        onChange={onSelectFile}
-                    />
+                <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}>
+                    <MagicDropzone
+                        accept="image/jpeg, image/png, .jpg, .jpeg, .png"
+                        multiple={false}
+                        onDrop={onDrop}
+                        style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            cursor: 'pointer',
+                            border: 'thin dashed black',
+                            background: '#d3d3d3',
+                            minWidth: '250px',
+                            maxWidth: '800px',
+                            minHeight: '120px',
+                            padding: '16px 11px',
+                            borderRadius: '5px',
+                            margin: '40px 0',
+                        }}
+                    >
+                        <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            flexWrap: 'wrap',
+                        }}>
+                            {loadedImg ? (
+                                <img src={loadedImg} width="100" alt="drop" />
+                            ) : (
+                                <h5>Drop some files on me!</h5>
+                            )}
+                        </div>
+                    </MagicDropzone>
                     <div>
                         {loadedImg && (
-                            <div>
-                                <img ref={imageRef} src={loadedImg} alt="test"  />
-                                <canvas ref={canvasRef} width="500" height="500" />
+                            <div style={{
+                                marginLeft: '100px',
+                                paddingLeft: '100px'
+                            }}>
+                                <img 
+                                    style={{ position: 'absolute' }} 
+                                    ref={imageRef} 
+                                    src={loadedImg} 
+                                    width="500" 
+                                    alt="test"  
+                                />
+                                <canvas 
+                                    style={{ position: 'absolute' }}
+                                    ref={canvasRef} 
+                                    width="700" 
+                                    height="500" 
+                                />
                             </div>
                         )}
                     </div>

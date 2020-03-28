@@ -23,7 +23,7 @@ const App = () => {
           labels: labels, 
           fetchLabels: fetchLabels
         }}>
-        <Realtime />
+        <Detection />
       </ModelContext.Provider>
   );
 }
