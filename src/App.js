@@ -1,25 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useCallback } from 'react';
+import { ModelContext } from './components/context/model-context';
+import Detection from './components/Image/Detection';
+import Realtime from './components/Realtime/Realtime';
 
-function App() {
+const App = () => {
+  const [model, setModel] = useState(null);
+  const [labels, setLabels] = useState(null);
+
+  const fetchModel = useCallback((model) => {
+      setModel(model);
+  }, []);
+
+  const fetchLabels = useCallback((labels) => {
+      setLabels(labels);
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <ModelContext.Provider 
+        value={{
+          model: model, 
+          fetchModel: fetchModel, 
+          labels: labels, 
+          fetchLabels: fetchLabels
+        }}>
+        <Realtime />
+      </ModelContext.Provider>
   );
 }
 
