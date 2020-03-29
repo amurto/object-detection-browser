@@ -25,7 +25,7 @@ const App = () => {
           fetchLabels: fetchLabels
         }}>
         <Detection />
-        <LoadingSpinner />
+        {/* <LoadingSpinner /> */}
       </ModelContext.Provider>
   );
 }

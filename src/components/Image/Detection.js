@@ -4,7 +4,7 @@ import { ModelContext } from '../context/model-context';
 import useDetector from './useDetector';
 import MagicDropzone from 'react-magic-dropzone';
 
-const MODEL_URL = process.env.PUBLIC_URL + '/face_detection/';
+const MODEL_URL = process.env.PUBLIC_URL + '/cat_dog/';
 const LABELS_URL = MODEL_URL + 'labels.json';
 const MODEL_JSON = MODEL_URL + 'model.json';
 
