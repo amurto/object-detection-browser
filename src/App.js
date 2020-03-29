@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { ModelContext } from './components/context/model-context';
 import Detection from './components/Image/Detection';
 import Realtime from './components/Realtime/Realtime';
+import LoadingSpinner from './components/utils/LoadingSpinner';
 
 const App = () => {
   const [model, setModel] = useState(null);
@@ -24,8 +25,11 @@ const App = () => {
           fetchLabels: fetchLabels
         }}>
         <Detection />
+        <LoadingSpinner />
       </ModelContext.Provider>
   );
 }
 
 export default App;
+
+
