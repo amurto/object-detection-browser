@@ -138,27 +138,48 @@ const Detection = () => {
                             </div>
                         </MagicDropzone>
                     </div>
-                    <div>
+                    <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}>
                         {loadedImg && (
                             <div style={{
+                                width: `${dimensions.width}px`,
+                                height: `${dimensions.height}px`,
                             }}>
-                                <img 
-                                    style={{ position: 'absolute' }} 
-                                    ref={imageRef} 
-                                    src={loadedImg} 
-                                    width={dimensions.width}
-                                    height={dimensions.height} 
-                                    alt="test"  
-                                />
-                                <canvas 
-                                    style={{ position: 'absolute' }}
-                                    ref={canvasRef} 
-                                    width={dimensions.width}
-                                    height={dimensions.height + 100}
-                                />
+                                <div style={{
+                                    width:'100%',
+                                    height:'100%',
+                                    position:'relative',
+                                }}>
+                                    <img 
+                                        src={loadedImg} 
+                                        width={dimensions.width}
+                                        height={dimensions.height} 
+                                        style={{
+                                            position:'absolute',
+                                            top:'0px',
+                                            left:'0px',
+                                        }}
+                                        ref={imageRef} 
+                                        alt="ok" 
+                                    />
+                                    <canvas 
+                                        width={dimensions.width}
+                                        height={dimensions.height} 
+                                        style={{
+                                            position:'absolute',
+                                            top:'0px',
+                                            left:'0px',
+                                        }} 
+                                        ref={canvasRef}
+                                    />
+                            </div>
                             </div>
                         )}
                     </div>
+                    <h1>sfsd</h1>
                 </div>
             )}
         </React.Fragment>
