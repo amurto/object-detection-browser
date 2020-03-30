@@ -1,10 +1,11 @@
 import React, { useState, useCallback } from 'react';
 import * as tf from '@tensorflow/tfjs';
 import { ModelContext } from './components/context/model-context';
-import Detection from './components/Image/Detection';
-import Realtime from './components/Realtime/Realtime';
-import LoadingSpinner from './components/utils/LoadingSpinner';
 import Selector from './components/utils/Selector';
+import Detection from './components/Image/Detection';
+import Video from './components/video/Video';
+import Realtime from './components/realtime/Realtime';
+import LoadingSpinner from './components/utils/LoadingSpinner';
 
 const MODEL_URL = process.env.PUBLIC_URL + '/coco/';
 const LABELS_URL = MODEL_URL + 'labels.json';
@@ -44,8 +45,9 @@ const App = () => {
           <div>
             {model ? (
               <div>
-                <Selector />
-                <Detection />
+                {/* <Selector />
+                <Detection /> */}
+                <Video />
               </div>
             ) : (
               <div style={{
