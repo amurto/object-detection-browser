@@ -6,7 +6,7 @@ import Realtime from './components/Realtime/Realtime';
 import LoadingSpinner from './components/utils/LoadingSpinner';
 import Selector from './components/utils/Selector';
 
-const MODEL_URL = process.env.PUBLIC_URL + '/face_detection/';
+const MODEL_URL = process.env.PUBLIC_URL + '/coco/';
 const LABELS_URL = MODEL_URL + 'labels.json';
 const MODEL_JSON = MODEL_URL + 'model.json';
 
@@ -45,6 +45,7 @@ const App = () => {
             {model ? (
               <div>
                 <Selector />
+                <Detection />
               </div>
             ) : (
               <div style={{
