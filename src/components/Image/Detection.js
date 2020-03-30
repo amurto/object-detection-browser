@@ -1,15 +1,10 @@
 import React, {  useState, useEffect, useRef, useContext } from 'react';
-import * as tf from '@tensorflow/tfjs';
 import { ModelContext } from '../context/model-context';
 import useDetector from './useDetector';
 import MagicDropzone from 'react-magic-dropzone';
 
-const MODEL_URL = process.env.PUBLIC_URL + '/cat_dog/';
-const LABELS_URL = MODEL_URL + 'labels.json';
-const MODEL_JSON = MODEL_URL + 'model.json';
-
 const Detection = () => {
-    const { model, fetchModel, labels, fetchLabels } = useContext(ModelContext);
+    const { model, labels } = useContext(ModelContext);
     const [loadedImg, setLoadedImg] = useState(null); 
     const imageRef = useRef();
     const canvasRef = useRef();
@@ -62,14 +57,6 @@ const Detection = () => {
 
     useDetector(model, labels, loadedImg, imageRef, canvasRef)
 
-    const loadModel = async () => {
-        const model = await tf.loadGraphModel(MODEL_JSON);
-        fetchModel(model);
-        const response = await fetch(LABELS_URL);
-        let labels = await response.json();
-        fetchLabels(labels)
-    }
-
     const onDrop = (accepted, rejected, links) => {
         if (accepted && accepted.length > 0) {
             const reader = new FileReader();
@@ -82,11 +69,6 @@ const Detection = () => {
 
     return (
         <React.Fragment>
-            {!model ? (
-                <div>
-                    <button onClick={loadModel}>Load Model</button>
-                </div>
-            ) : (
                 <div>
                     <div style={{
                         display: 'flex',
@@ -181,7 +163,6 @@ const Detection = () => {
                     </div>
                     <h1>sfsd</h1>
                 </div>
-            )}
         </React.Fragment>
     )
 }

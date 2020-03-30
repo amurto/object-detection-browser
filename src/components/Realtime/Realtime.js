@@ -1,16 +1,11 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import * as tf from '@tensorflow/tfjs';
 import { ModelContext } from '../context/model-context';
 
 import useWebcam from './useWebcam';
 import useBoxRenderer from './useBoxRenderer';
 
-const MODEL_URL = process.env.PUBLIC_URL + '/face_detection/';
-const LABELS_URL = MODEL_URL + 'labels.json';
-const MODEL_JSON = MODEL_URL + 'model.json';
-
 const Realtime = () => {
-  const { model, fetchModel, labels, fetchLabels } = useContext(ModelContext);
+  const { model, labels } = useContext(ModelContext);
   const videoRef = useRef()
   const canvasRef = useRef()
   const [dimensions, setDimensions] = useState(() => { 
@@ -62,25 +57,11 @@ const Realtime = () => {
   const cameraLoaded = useWebcam(model, videoRef)
   useBoxRenderer(model, videoRef, canvasRef, cameraLoaded, labels)
 
-  const loadModel = async () => {
-    const model = await tf.loadGraphModel(MODEL_JSON);
-    fetchModel(model);
-    const response = await fetch(LABELS_URL);
-    let labels = await response.json();
-    fetchLabels(labels)
-  }
-
   return (
     <div>
-      {!model && (
-        <div>
-            <button onClick={loadModel}>Load Model</button>
-        </div>
-      )}
       <h1>Test</h1>
       <h1>Test</h1>
       <h1>Test</h1>
-      {model && (
         <div style={{
           display: 'flex',
           alignItems: 'center',
@@ -121,7 +102,6 @@ const Realtime = () => {
           </div>
           </div>
         </div>
-      )}
     </div>
   )
 }
