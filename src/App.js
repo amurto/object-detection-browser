@@ -2,9 +2,6 @@ import React, { useState, useCallback } from 'react';
 import * as tf from '@tensorflow/tfjs';
 import { ModelContext } from './components/context/model-context';
 import Selector from './components/utils/Selector';
-import Detection from './components/Image/Detection';
-import Video from './components/video/Video';
-import Realtime from './components/realtime/Realtime';
 import LoadingSpinner from './components/utils/LoadingSpinner';
 
 const MODEL_URL = process.env.PUBLIC_URL + '/coco/';
@@ -15,6 +12,7 @@ const App = () => {
   const [model, setModel] = useState(null);
   const [labels, setLabels] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [selected, setSelected] = useState('');
 
   const fetchModel = useCallback((model) => {
       setModel(model);
@@ -23,6 +21,10 @@ const App = () => {
   const fetchLabels = useCallback((labels) => {
       setLabels(labels);
   }, []);
+
+  const selectMode = useCallback((selected) => {
+      setSelected(selected)
+  }, [])
 
   const loadModel = async () => {
     setLoading(true);
@@ -40,14 +42,14 @@ const App = () => {
           model: model, 
           fetchModel: fetchModel, 
           labels: labels, 
-          fetchLabels: fetchLabels
+          fetchLabels: fetchLabels,
+          selected: selected,
+          selectMode: selectMode
         }}>
           <div>
             {model ? (
               <div>
-                {/* <Selector />
-                <Detection /> */}
-                <Video />
+                <Selector />
               </div>
             ) : (
               <div style={{

@@ -1,126 +1,64 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
+import { ModelContext } from '../context/model-context';
+import Detection from '../Image/Detection';
+import Video from '../video/Video';
+import Realtime from '../realtime/Realtime';
+import './Selector.css';
 
 const Selector = () => {
-    const [selected, setSelected] = useState('');
-
+    const { selected, selectMode } = useContext(ModelContext);
 
     return (
-        <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-        }}>
-            <div style={{ width: '33%', padding: '20px' }}>
-                {selected === 'Image' ? (
-                    <div 
-                        onClick={() => setSelected('Image')} 
-                        style={{ 
-                            paddingTop: '20px',
-                            paddingBottom: '20px',
-                            textAlign: 'center', 
-                            backgroundColor: '#ebc2ff', 
-                            borderRadius: '8px',
-                            borderColor: '#8016b5',
-                            borderStyle: 'solid',
-                            borderWidth: '2px', 
-                        }}>
-                            <div style={{
-                                fontWeight: '500',
-                                color: '#8016b5'
-                            }}>Image</div>
-                    </div>
-                ) : (
-                    <div 
-                        onClick={() => setSelected('Image')} 
-                        style={{ 
-                            paddingTop: '20px',
-                            paddingBottom: '20px',
-                            textAlign: 'center', 
-                            backgroundColor: '#6e00b8', 
-                            borderRadius: '8px' 
-                        }}> 
-                            <div style={{
-                                fontWeight: '400',
-                                color: 'white'
-                            }}>Image</div>
-                    </div>
-                )}
-            </div>
-            
-            <div style={{ width: '33%', padding: '20px' }}>
-                {selected === 'Video' ? (
-                        <div 
-                            onClick={() => setSelected('Video')} 
-                            style={{ 
-                                paddingTop: '20px',
-                                paddingBottom: '20px',
-                                textAlign: 'center', 
-                                backgroundColor: '#ebc2ff', 
-                                borderRadius: '8px',
-                                borderColor: '#8016b5',
-                                borderStyle: 'solid',
-                                borderWidth: '2px', 
-                            }}>
-                                <div style={{
-                                    fontWeight: '500',
-                                    color: '#8016b5'
-                                }}>Video</div>
+        <React.Fragment>
+            <div className="top-div">
+                <div className="section-div">
+                    {selected === 'Image' ? (
+                        <div className="selected-div" onClick={() => selectMode('Image')}>
+                                <div className="selected-text">Upload Image</div>
                         </div>
                     ) : (
-                        <div 
-                            onClick={() => setSelected('Video')} 
-                            style={{ 
-                                paddingTop: '20px',
-                                paddingBottom: '20px',
-                                textAlign: 'center', 
-                                backgroundColor: '#6e00b8', 
-                                borderRadius: '8px' 
-                            }}> 
-                                <div style={{
-                                    fontWeight: '400',
-                                    color: 'white'
-                                }}>Video</div>
+                        <div className="deselected-div" onClick={() => selectMode('Image')}> 
+                                <div className="deselected-text">Upload Image</div>
                         </div>
                     )}
+                </div>
+                
+                <div className="section-div">
+                    {selected === 'Video' ? (
+                            <div className="selected-div" onClick={() => selectMode('Video')}>
+                                <div className="selected-text">Upload Video</div>
+                            </div>
+                        ) : (
+                            <div className="deselected-div"onClick={() => selectMode('Video')}> 
+                                <div className="deselected-text">Upload Video</div>
+                            </div>
+                        )}
+                </div>
+
+                <div className="section-div">
+                    {selected === 'Realtime' ? (
+                        <div className="selected-div" onClick={() => selectMode('Realtime')}>
+                                <div className="selected-text">Realtime</div>
+                        </div>
+                    ) : (
+                        <div className="deselected-div" onClick={() => selectMode('Realtime')}>
+                            <div className="deselected-text">Realtime</div>
+                        </div>
+                    )}
+                </div>
             </div>
 
-            <div style={{ width: '33%', padding: '20px' }}>
-                {selected === 'Realtime' ? (
-                    <div 
-                        onClick={() => setSelected('Realtime')} 
-                        style={{ 
-                            paddingTop: '20px',
-                            paddingBottom: '20px',
-                            textAlign: 'center', 
-                            backgroundColor: '#ebc2ff', 
-                            borderRadius: '8px',
-                            borderColor: '#8016b5',
-                            borderStyle: 'solid',
-                            borderWidth: '2px', 
-                        }}>
-                            <div style={{
-                                fontWeight: '500',
-                                color: '#8016b5'
-                            }}>Realtime</div>
-                    </div>
-                ) : (
-                    <div 
-                        onClick={() => setSelected('Realtime')} 
-                        style={{ 
-                            paddingTop: '20px',
-                            paddingBottom: '20px',
-                            textAlign: 'center', 
-                            backgroundColor: '#6e00b8', 
-                            borderRadius: '8px' 
-                        }}> 
-                            <div style={{
-                                fontWeight: '400',
-                                color: 'white'
-                            }}>Realtime</div>
-                    </div>
-                )}
-            </div>
-        </div>
+            {selected === 'Image' && (
+                <Detection />
+            )}
+            {selected === 'Video' && (
+                <Video />
+            )}
+            {selected === 'Realtime' && (
+                <Realtime />
+            )}
+
+        </React.Fragment>
     )
 }
 export default Selector;

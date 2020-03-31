@@ -1,0 +1,39 @@
+.top-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.section-div {
+    width: 33%;
+    padding: 20px;
+}
+
+.selected-div {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: center; 
+    background-color: #ebc2ff;
+    border-radius: 8px;
+    border-color: #8016b5;
+    border-style: solid;
+    border-width: 2px; 
+}
+
+.deselected-div {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: center; 
+    background-color: #6e00b8; 
+    border-radius: 8px;
+}
+
+.selected-text {
+    font-weight: 500;
+    color: #8016b5;
+}
+
+.deselected-text {
+    font-weight: 400;
+    color: white;
+}

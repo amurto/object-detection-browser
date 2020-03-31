@@ -4,5 +4,7 @@ export const ModelContext = createContext({
     model: null,
     fetchModel: (model) => {},
     labels: null,
-    fetchLabels: (labels) => {}
+    fetchLabels: (labels) => {},
+    selected: '',
+    selectMode: (selected) => {}
 });
