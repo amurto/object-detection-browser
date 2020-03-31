@@ -1,65 +1,21 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { ModelContext } from '../context/model-context';
 import MagicDropzone from 'react-magic-dropzone';
+import { useDimension } from '../utils/dimension-hook';
 import useBoxRenderer from './useBoxRenderer';
 
 const Video = () => {
     const { model, labels } = useContext(ModelContext);
+    const dimensions = useDimension();
     const [frame, setFrame] = useState();
     const [videoLoaded, setVideoLoaded] = useState(false);
     const videoRef = useRef();
     const canvasRef = useRef();
 
-    const [dimensions, setDimensions] = useState(() => { 
-        if (window.innerWidth > 1000) {
-            return {
-                height: 600,
-                width: 600
-            }
-        } else if (window.innerWidth > 800) {
-            return {
-                height: 500,
-                width: 500
-            }
-        } else {
-            return {
-                height: 300,
-                width: 300
-            }
-        }
-    })
-
-    useEffect(() => {
-        function handleResize() {
-            if (window.innerWidth > 1000) {
-                setDimensions({
-                    height: 600,
-                    width: 600
-                });
-            } else if (window.innerWidth > 800) {
-                setDimensions({
-                    height: 500,
-                    width: 500
-                });
-            } else {
-                setDimensions({
-                    height: 300,
-                    width: 300
-                });
-            }
-        }
-
-        window.addEventListener('resize', handleResize)
-
-        return _ => {
-            window.removeEventListener('resize', handleResize)
-        }
-    });
-
     useBoxRenderer(model, videoRef, canvasRef, videoLoaded, labels)
 
     const onDrop = (accepted, rejected, links) => {
-        setVideoLoaded(false)
+        setVideoLoaded(false);
         if (accepted && accepted.length > 0) {
             const reader = new FileReader();
             reader.addEventListener("load", () => {

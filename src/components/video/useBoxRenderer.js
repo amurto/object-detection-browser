@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import * as tf from '@tensorflow/tfjs';
+import { useDimension } from '../utils/dimension-hook';
 
 const SCORE_DIGITS = 4
 
@@ -92,74 +93,78 @@ const renderPredictions = (predictions, canvasRef) => {
   })
 }
 
-const detectFrame = async (model, videoRef, canvasRef, labels) => {
-  console.log(videoRef.current.width, videoRef.current.height)
-  const batched = tf.tidy(() => {
-    const img = tf.browser.fromPixels(videoRef.current)
-    const small = tf.image.resizeBilinear(img, [600, 600])
-    // Reshape to a single-element batch so we can pass it to executeAsync.
-    return small.expandDims(0).toFloat();
-  })
+const detectFrame = async (model, videoRef, canvasRef, labels, dimensions) => {
+  try {
+    // console.log(videoRef.current.width, videoRef.current.height)
+    const batched = tf.tidy(() => {
+      const img = tf.browser.fromPixels(videoRef.current)
+      const small = tf.image.resizeBilinear(img, [dimensions.width, dimensions.height])
+      // Reshape to a single-element batch so we can pass it to executeAsync.
+      return small.expandDims(0).toFloat();
+    })
 
-  const height = batched.shape[1]
-  const width = batched.shape[2]
+    const height = batched.shape[1]
+    const width = batched.shape[2]
 
-  const result = await model.executeAsync(batched)
-  const scores = result[0].dataSync();
-  const boxes = result[1].dataSync()
+    const result = await model.executeAsync(batched)
+    const scores = result[0].dataSync();
+    const boxes = result[1].dataSync()
 
-  // clean the webgl tensors
-  batched.dispose();
-  tf.dispose(result);
-  const [maxScores, classes] = calculateMaxScores(
-    scores,
-    result[0].shape[1],
-    result[0].shape[2]
-  )
-
-  const prevBackend = tf.getBackend()
-  // run post process in cpu
-  tf.setBackend('cpu')
-  const indexTensor = tf.tidy(() => {
-    const boxes2 = tf.tensor2d(boxes, [result[1].shape[1], result[1].shape[3]])
-    return tf.image.nonMaxSuppression(
-      boxes2,
-      maxScores,
-      20, // maxNumBoxes
-      0.5, // iou_threshold
-      0.5 // score_threshold
+    // clean the webgl tensors
+    batched.dispose();
+    tf.dispose(result);
+    const [maxScores, classes] = calculateMaxScores(
+      scores,
+      result[0].shape[1],
+      result[0].shape[2]
     )
-  })
 
-  const indexes = indexTensor.dataSync()
-  indexTensor.dispose()
-  // restore previous backend
-  tf.setBackend(prevBackend)
+    const prevBackend = tf.getBackend()
+    // run post process in cpu
+    tf.setBackend('cpu')
+    const indexTensor = tf.tidy(() => {
+      const boxes2 = tf.tensor2d(boxes, [result[1].shape[1], result[1].shape[3]])
+      return tf.image.nonMaxSuppression(
+        boxes2,
+        maxScores,
+        20, // maxNumBoxes
+        0.5, // iou_threshold
+        0.5 // score_threshold
+      )
+    })
 
-  const predictions = buildDetectedObjects(
-    width,
-    height,
-    boxes,
-    maxScores,
-    indexes,
-    classes,
-    labels
-  )
+    const indexes = indexTensor.dataSync()
+    indexTensor.dispose()
+    // restore previous backend
+    tf.setBackend(prevBackend)
 
-  renderPredictions(predictions, canvasRef)
+    const predictions = buildDetectedObjects(
+      width,
+      height,
+      boxes,
+      maxScores,
+      indexes,
+      classes,
+      labels
+    )
 
-  requestAnimationFrame(() => {
-    detectFrame(model, videoRef, canvasRef, labels)
-  })
+    renderPredictions(predictions, canvasRef)
+      
+    requestAnimationFrame(() => {
+      detectFrame(model, videoRef, canvasRef, labels, dimensions)
+    })
+  } catch(err) {}
 }
 
 const useBoxRenderer = (model, videoRef, canvasRef, shouldRender, labels) => {
+  const dimensions = useDimension();
+
   useEffect(() => {
     if (model && labels && shouldRender) {
-      console.log(labels)
-      detectFrame(model, videoRef, canvasRef, labels)
+      console.log("new video");
+      detectFrame(model, videoRef, canvasRef, labels, dimensions)
     }
-  }, [canvasRef, model, shouldRender, videoRef, labels])
+  }, [canvasRef, model, shouldRender, videoRef, labels, dimensions])
 }
 
 export default useBoxRenderer
