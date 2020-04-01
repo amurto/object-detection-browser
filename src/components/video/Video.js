@@ -32,86 +32,38 @@ const Video = () => {
     return (
         <React.Fragment>
             <div>
-                <div style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center'
-                }}>
-                    <MagicDropzone
-                        accept="video/mp4, video/x-m4v, video/*"
-                        multiple={false}
-                        onDrop={onDrop}
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            cursor: 'pointer',
-                            border: 'thin dashed black',
-                            background: '#d3d3d3',
-                            minWidth: '70%',
-                            maxWidth: '800px',
-                            minHeight: '120px',
-                            padding: '16px 11px',
-                            borderRadius: '5px',
-                            margin: '40px 0',
-                        }}
-                    >
-                        <div style={{
-                        }}>
-                            {frame ? (
-                                <video 
-                                    style={{
-                                        margin: '5px',
-                                        width: '100px',
-                                        height: '100px',
-                                        border: 'thin solid rgba(64, 64, 64, 0.15)',
-                                        borderRadius: '5px',
-                                        objectFit: 'cover',
-                                    }}
-                                    src={frame}
-                                    width="100" 
-                                />
-                            ) : (
-                                <h5>Drop some files on me!</h5>
-                            )}
-                        </div>
-                    </MagicDropzone>
+                <div className="center-div">
+                    <div className="card">
+                        <MagicDropzone className="dropzone" accept="video/mp4, video/x-m4v, video/*" multiple={false} onDrop={onDrop}>
+                            <div className="center-div-wrap">
+                                {frame ? (
+                                    <video className="dropzone-image" src={frame} width="100" />
+                                ) : (
+                                    <h5>Drop some files on me!</h5>
+                                )}
+                            </div>
+                        </MagicDropzone>
+                    </div>
                 </div>
-                <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}>
+                <div className="center-div">
                         <div style={{
                             width: `${dimensions.width}px`,
                             height: `${dimensions.height}px`,
                         }}>
-                            <div style={{
-                                width:'100%',
-                                height:'100%',
-                                position:'relative',
-                            }}>
+                            <div className="image-container">
                                 <video 
                                     autoPlay
                                     playsInline
                                     muted
                                     width={dimensions.width}
                                     height={dimensions.height} 
-                                    style={{
-                                        position:'absolute',
-                                        top:'0px',
-                                        left:'0px',
-                                    }}   
+                                    className="image-canvas"   
                                     ref={videoRef} 
                                 />
                                 <canvas 
                                     width={dimensions.width}
                                     height={dimensions.height} 
-                                    style={{
-                                        position:'absolute',
-                                        top:'0px',
-                                        left:'0px',
-                                    }} 
+                                    className="image-canvas" 
                                     ref={canvasRef}
                                 />
                             </div>

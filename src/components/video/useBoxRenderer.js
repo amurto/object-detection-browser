@@ -98,7 +98,7 @@ const detectFrame = async (model, videoRef, canvasRef, labels, dimensions) => {
     // console.log(videoRef.current.width, videoRef.current.height)
     const batched = tf.tidy(() => {
       const img = tf.browser.fromPixels(videoRef.current)
-      const small = tf.image.resizeBilinear(img, [dimensions.width, dimensions.height])
+      const small = tf.image.resizeBilinear(img, [dimensions.height, dimensions.width])
       // Reshape to a single-element batch so we can pass it to executeAsync.
       return small.expandDims(0).toFloat();
     })

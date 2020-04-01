@@ -3,6 +3,7 @@ import { ModelContext } from '../context/model-context';
 import { useDimension } from '../utils/dimension-hook';
 import useDetector from './useDetector';
 import MagicDropzone from 'react-magic-dropzone';
+import upload from '../utils/upload.png';
 
 const Detection = () => {
     const { model, labels } = useContext(ModelContext);
@@ -26,94 +27,49 @@ const Detection = () => {
     return (
         <React.Fragment>
                 <div>
-                    <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}>
-                        <MagicDropzone
-                            accept="image/jpeg, image/png, .jpg, .jpeg, .png"
-                            multiple={false}
-                            onDrop={onDrop}
-                            style={{
-                                display: 'inline-flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                cursor: 'pointer',
-                                border: 'thin dashed black',
-                                background: '#d3d3d3',
-                                minWidth: '70%',
-                                maxWidth: '800px',
-                                minHeight: '120px',
-                                padding: '16px 11px',
-                                borderRadius: '5px',
-                                margin: '40px 0',
-                            }}
-                        >
-                            <div style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                flexWrap: 'wrap',
-                            }}>
-                                {loadedImg ? (
-                                    <img 
-                                        style={{
-                                            margin: '5px',
-                                            width: '100px',
-                                            height: '100px',
-                                            border: 'thin solid rgba(64, 64, 64, 0.15)',
-                                            borderRadius: '5px',
-                                            objectFit: 'cover',
-                                        }}
-                                        src={loadedImg} 
-                                        width="100" 
-                                        alt="drop" 
-                                    />
-                                ) : (
-                                    <h5>Drop some files on me!</h5>
-                                )}
-                            </div>
-                        </MagicDropzone>
+                    <div className="center-div">
+                        <div className="card">
+                            <MagicDropzone className="dropzone" accept="image/jpeg, image/png, .jpg, .jpeg, .png" multiple={false} onDrop={onDrop}>
+                                <div className="center-div-wrap">
+                                    {loadedImg ? (
+                                        <img className="dropzone-image" src={loadedImg} width="100" alt="drop" />
+                                    ) : (
+                                        <div>
+                                            <div className="center-div">
+                                                <img src={upload} width="50" height="50" alt="upload" />
+                                            </div>
+                                            <div style={{ display: 'block' }}>
+                                                <p>Drag/drop files over here</p>
+                                            </div>
+                                        </div>
+
+                                    )}
+                                </div>
+                            </MagicDropzone>
+                        </div>
                     </div>
-                    <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}>
+                    <div className="center-div">
                         {loadedImg && (
                             <div style={{
                                 width: `${dimensions.width}px`,
                                 height: `${dimensions.height}px`,
                             }}>
-                                <div style={{
-                                    width:'100%',
-                                    height:'100%',
-                                    position:'relative',
-                                }}>
+                                <div className="image-container">
                                     <img 
                                         src={loadedImg} 
                                         width={dimensions.width}
                                         height={dimensions.height} 
-                                        style={{
-                                            position:'absolute',
-                                            top:'0px',
-                                            left:'0px',
-                                        }}
+                                        className="image-canvas"
                                         ref={imageRef} 
                                         alt="ok" 
                                     />
                                     <canvas 
                                         width={dimensions.width}
                                         height={dimensions.height} 
-                                        style={{
-                                            position:'absolute',
-                                            top:'0px',
-                                            left:'0px',
-                                        }} 
+                                        className="image-canvas" 
                                         ref={canvasRef}
                                     />
-                            </div>
+                                </div>
                             </div>
                         )}
                     </div>

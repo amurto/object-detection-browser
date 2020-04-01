@@ -2,7 +2,7 @@ import React, { useRef, useContext } from 'react';
 import { ModelContext } from '../context/model-context';
 import { useDimension } from '../utils/dimension-hook';
 import useWebcam from './useWebcam';
-import useBoxRenderer from './useBoxRenderer';
+import useBoxRenderer from '../video/useBoxRenderer';
 
 const Realtime = () => {
   const { model, labels } = useContext(ModelContext);

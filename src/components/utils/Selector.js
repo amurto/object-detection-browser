@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { ModelContext } from '../context/model-context';
-import Detection from '../Image/Detection';
+import Detection from '../image/Detection';
 import Video from '../video/Video';
 import Realtime from '../realtime/Realtime';
 import './Selector.css';
@@ -38,11 +38,11 @@ const Selector = () => {
                 <div className="section-div">
                     {selected === 'Realtime' ? (
                         <div className="selected-div" onClick={() => selectMode('Realtime')}>
-                                <div className="selected-text">Realtime</div>
+                                <div className="selected-text">Open Camera</div>
                         </div>
                     ) : (
                         <div className="deselected-div" onClick={() => selectMode('Realtime')}>
-                            <div className="deselected-text">Realtime</div>
+                            <div className="deselected-text">Open Camera</div>
                         </div>
                     )}
                 </div>
