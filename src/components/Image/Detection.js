@@ -42,7 +42,6 @@ const Detection = () => {
                                                 <p>Drag/drop files over here</p>
                                             </div>
                                         </div>
-
                                     )}
                                 </div>
                             </MagicDropzone>
@@ -73,7 +72,6 @@ const Detection = () => {
                             </div>
                         )}
                     </div>
-                    <h1>sfsd</h1>
                 </div>
         </React.Fragment>
     )

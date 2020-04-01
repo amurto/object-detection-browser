@@ -3,6 +3,7 @@ import { ModelContext } from '../context/model-context';
 import MagicDropzone from 'react-magic-dropzone';
 import { useDimension } from '../utils/dimension-hook';
 import useBoxRenderer from './useBoxRenderer';
+import upload from '../utils/upload.png';
 
 const Video = () => {
     const { model, labels } = useContext(ModelContext);
@@ -39,7 +40,14 @@ const Video = () => {
                                 {frame ? (
                                     <video className="dropzone-image" src={frame} width="100" />
                                 ) : (
-                                    <h5>Drop some files on me!</h5>
+                                    <div>
+                                        <div className="center-div">
+                                            <img src={upload} width="50" height="50" alt="upload" />
+                                        </div>
+                                        <div style={{ display: 'block' }}>
+                                            <p>Drag/drop files over here</p>
+                                        </div>
+                                    </div>
                                 )}
                             </div>
                         </MagicDropzone>

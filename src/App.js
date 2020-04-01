@@ -46,18 +46,16 @@ const App = () => {
           selected: selected,
           selectMode: selectMode
         }}>
+          <div className="header-div">
+            This currently uses SSD + Mobilenetv2 pretrained coco model
+          </div>
           <div>
             {model ? (
               <div>
                 <Selector />
               </div>
             ) : (
-              <div style={{
-                marginTop: '10%',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center'
-              }}>
+              <div className="center-div load-div">
                   {loading ? (
                     <div style={{ textAlign: 'center' }}>
                       <LoadingSpinner />

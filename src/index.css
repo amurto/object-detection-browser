@@ -66,6 +66,19 @@ code {
   }
 }
 
+.header-div {
+  padding: 20px;
+  background-color:#210133;
+  text-align: center;
+  color: #FFFFFF;
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.load-div {
+  margin-top: 5%;
+}
+
 .center-div {
     display: flex;
     align-items: center;

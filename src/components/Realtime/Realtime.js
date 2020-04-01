@@ -15,23 +15,12 @@ const Realtime = () => {
 
   return (
     <div>
-      <h1>Test</h1>
-      <h1>Test</h1>
-      <h1>Test</h1>
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
+        <div className="center-div">
           <div style={{
               width: `${dimensions.width}px`,
               height: `${dimensions.height}px`,
           }}>
-              <div style={{
-                  width:'100%',
-                  height:'100%',
-                  position:'relative',
-              }}>
+              <div className="image-container">
                   <video
                       autoPlay
                       playsInline
@@ -39,23 +28,15 @@ const Realtime = () => {
                       ref={videoRef}
                       width={dimensions.width}
                       height={dimensions.height} 
-                      style={{
-                          position:'absolute',
-                          top:'0px',
-                          left:'0px',
-                      }}
+                      className="image-canvas"
                   />
                   <canvas 
                       width={dimensions.width}
                       height={dimensions.height} 
-                      style={{
-                          position:'absolute',
-                          top:'0px',
-                          left:'0px',
-                      }} 
+                      className="image-canvas" 
                       ref={canvasRef}
                   />
-          </div>
+            </div>
           </div>
         </div>
     </div>
