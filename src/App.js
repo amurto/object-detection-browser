@@ -4,7 +4,7 @@ import { ModelContext } from './components/context/model-context';
 import Selector from './components/utils/Selector';
 import LoadingSpinner from './components/utils/LoadingSpinner';
 
-const MODEL_URL = process.env.PUBLIC_URL + '/coco/';
+const MODEL_URL = process.env.PUBLIC_URL + '/yolo_model/';
 const LABELS_URL = MODEL_URL + 'labels.json';
 const MODEL_JSON = MODEL_URL + 'model.json';
 
