@@ -23,7 +23,7 @@ You can view the demo [here](https://amurto.github.io/object-detection-browser/)
 
 
 ### Object Detection
-![Image of Object Detection](templates/od.png)
+![Image of Object Detection](templates/demo.jpg)
 
 # Dependencies
 
