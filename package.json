@@ -1,4 +1,5 @@
 {
+  "homepage": "http://amurto.github.io/object-detection-browser",
   "name": "object_detection_browser",
   "version": "0.1.0",
   "private": true,
