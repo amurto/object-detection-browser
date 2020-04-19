@@ -54,6 +54,8 @@ npm install
 
 # Usage
 
+After training and converting the model, paste into the public folder along with the labels. Make sure to name the folder "model", which contains the model.json, label.json and the shard files.
+
 Run the project
 ```bash
 npm start
